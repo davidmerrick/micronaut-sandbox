@@ -28,7 +28,6 @@ dependencies {
     kapt("io.micronaut:micronaut-validation")
     runtimeOnly("com.amazonaws:aws-lambda-java-log4j2:1.0.0")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.9.1")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
 }
 
 tasks {
