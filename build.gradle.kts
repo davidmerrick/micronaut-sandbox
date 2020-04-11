@@ -32,18 +32,6 @@ dependencies {
     runtimeOnly("com.amazonaws:aws-lambda-java-log4j2:1.0.0")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.9.1")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
-    testImplementation(platform("io.micronaut:micronaut-bom:1.3.4"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.8")
-    testImplementation("io.micronaut.test:micronaut-test-kotlintest")
-    testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
-    testImplementation("io.micronaut:micronaut-function-client")
-    testImplementation("io.micronaut:micronaut-http-client")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.8")
-    testImplementation("io.micronaut:micronaut-http-server-netty")
-    testImplementation("io.micronaut:micronaut-function-web")
 }
 
 tasks {
