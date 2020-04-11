@@ -1,27 +1,29 @@
 package com.merricklabs
 
-import io.micronaut.http.HttpStatus
-import io.micronaut.http.client.RxHttpClient
+import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.annotation.MicronautTest
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import javax.inject.Inject
+
+// Reference: https://docs.micronaut.io/latest/guide/index.html#runningServer
 
 @MicronautTest
 class PingControllerTest {
     @Inject
-    lateinit var embeddedServer: EmbeddedServer
+    lateinit var server: EmbeddedServer
 
-    // Todo: Test isn't currently working
+    @Inject
+    @field:Client("/")
+    lateinit var client: HttpClient
+
     @Test
-    @Throws(Exception::class)
     fun testPing() {
-        embeddedServer.applicationContext.createBean(RxHttpClient::class.java, embeddedServer.url)
-                .use { client ->
-                    Assertions.assertEquals(
-                            HttpStatus.OK,
-                            client.toBlocking().exchange<Any>("/ping").status())
-                }
+        val response = client.toBlocking()
+                .retrieve("/ping")
+        assertEquals("Hello World", response) //)
+
     }
 }
