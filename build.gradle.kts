@@ -5,15 +5,10 @@ repositories {
 
 plugins {
     id("com.github.johnrengelman.shadow") version "5.2.0"
-    id("jp.classmethod.aws.lambda") version "0.39"
     kotlin("jvm") version "1.3.50"
     kotlin("kapt") version "1.3.50"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.50"
     application
 }
-
-// Warn: This configuration has poor `file watch` performance on macOS
-val developmentOnly: Configuration by configurations.creating
 
 group = "com.merricklabs.quarantinebot"
 
@@ -51,10 +46,6 @@ dependencies {
     testImplementation("io.micronaut:micronaut-function-web")
 }
 
-allOpen {
-	annotation("io.micronaut.aop.Around")
-}
-
 tasks {
     compileKotlin {
         kotlinOptions {
@@ -72,11 +63,6 @@ tasks {
 
     test {
         useJUnitPlatform()
-    }
-
-    withType<JavaExec> {
-        classpath += developmentOnly
-        jvmArgs = listOf("-noverify", "-XX:TieredStopAtLevel=1", "-Dcom.sun.management.jmxremote")
     }
 
     shadowJar {
