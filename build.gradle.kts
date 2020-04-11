@@ -22,8 +22,6 @@ dependencies {
     implementation("io.micronaut:micronaut-runtime:1.3.4")
     implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:1.3.4")
     kapt(platform("io.micronaut:micronaut-bom:1.3.4"))
-    kapt("io.micronaut:micronaut-inject-java")
-    kapt("io.micronaut:micronaut-validation")
     runtimeOnly("com.amazonaws:aws-lambda-java-log4j2:1.0.0")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.9.1")
 }
