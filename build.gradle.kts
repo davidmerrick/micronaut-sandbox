@@ -19,7 +19,6 @@ application {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.50")
     implementation("io.micronaut:micronaut-runtime:1.3.4")
     implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:1.3.4")
     kapt(platform("io.micronaut:micronaut-bom:1.3.4"))
