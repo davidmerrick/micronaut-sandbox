@@ -15,11 +15,10 @@ plugins {
 // Warn: This configuration has poor `file watch` performance on macOS
 val developmentOnly: Configuration by configurations.creating
 
-group = "com.merricklabs"
-val mainClass = "io.micronaut.function.executor.FunctionApplication"
+group = "com.merricklabs.quarantinebot"
 
 application {
-    mainClassName = mainClass
+    mainClassName = "com.merricklabs.quarantinebot.Application"
     applicationDefaultJvmArgs = listOf("")
 }
 
@@ -29,6 +28,7 @@ dependencies {
     implementation("io.micronaut:micronaut-runtime:1.3.4")
     implementation("io.micronaut:micronaut-function-aws:1.3.4")
     implementation("javax.annotation:javax.annotation-api")
+    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:1.3.4")
     kapt(platform("io.micronaut:micronaut-bom:1.3.4"))
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
@@ -45,10 +45,10 @@ dependencies {
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
     testImplementation("io.micronaut:micronaut-function-client")
     testImplementation("io.micronaut:micronaut-http-client")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.8")
-    testRuntimeOnly("io.micronaut:micronaut-http-server-netty")
-    testRuntimeOnly("io.micronaut:micronaut-function-web")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.8")
+    testImplementation("io.micronaut:micronaut-http-server-netty")
+    testImplementation("io.micronaut:micronaut-function-web")
 }
 
 allOpen {
@@ -80,9 +80,16 @@ tasks {
     }
 
     shadowJar {
-        manifest {
-            attributes["Main-Class"] = mainClass
-        }
+        archiveBaseName.set("quarantinebot")
+        archiveClassifier.set("")
+        archiveVersion.set("")
         mergeServiceFiles()
+        transform(com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer::class.java)
+    }
+
+    withType<Jar> {
+        manifest {
+            attributes["Main-Class"] = application.mainClassName
+        }
     }
 }

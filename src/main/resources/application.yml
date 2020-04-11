@@ -1,3 +1,3 @@
 micronaut:
   function:
-    name: pirate-translator
+    name: com.merricklabs

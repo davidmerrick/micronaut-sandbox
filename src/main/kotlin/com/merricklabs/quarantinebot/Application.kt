@@ -1,4 +1,4 @@
-package com.merricklabs
+package com.merricklabs.quarantinebot
 
 import io.micronaut.runtime.Micronaut
 
