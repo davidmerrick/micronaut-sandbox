@@ -7,7 +7,5 @@ import io.micronaut.http.annotation.Get
 class PingController {
 
     @Get("/")
-    fun index(): String {
-        return "{\"pong\":true}"
-    }
+    fun index() = "pong"
 }
