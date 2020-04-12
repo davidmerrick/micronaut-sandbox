@@ -12,6 +12,9 @@ plugins {
 
 group = "com.merricklabs.quarantinebot"
 
+val micronautTestVersion by extra("1.1.5")
+val micronautVersion by extra("1.3.4")
+
 application {
     mainClassName = "com.merricklabs.quarantinebot.Application"
     applicationDefaultJvmArgs = listOf("")
@@ -19,10 +22,10 @@ application {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50")
-    implementation("io.micronaut:micronaut-runtime:1.3.4")
-    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:1.3.4")
+    implementation("io.micronaut:micronaut-runtime:$micronautVersion")
+    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:$micronautVersion")
 
-    kapt(platform("io.micronaut:micronaut-bom:1.3.4"))
+    kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
 
@@ -31,20 +34,21 @@ dependencies {
 
     // Test
 
-    kaptTest(platform("io.micronaut:micronaut-bom:1.3.4"))
-    kaptTest("io.micronaut:micronaut-inject-java:1.3.4")
+    kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    kaptTest("io.micronaut:micronaut-inject-java:$micronautVersion")
 
-    testImplementation("io.micronaut:micronaut-function-client:1.3.4")
-    testImplementation("io.micronaut:micronaut-http-client:1.3.4")
-    testImplementation("io.micronaut.test:micronaut-test-spock:1.1.3")
+    testImplementation("io.micronaut:micronaut-function-client:$micronautVersion")
+    testImplementation("io.micronaut:micronaut-http-client:$micronautVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
-    testImplementation("io.micronaut.test:micronaut-test-kotlintest")
+    testImplementation("io.micronaut.test:micronaut-test-spock:$micronautTestVersion")
+    testImplementation("io.micronaut.test:micronaut-test-kotlintest:$micronautTestVersion")
+    testImplementation("io.micronaut.test:micronaut-test-junit5:$micronautTestVersion")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.8")
-    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:1.3.4")
-    testRuntimeOnly("io.micronaut:micronaut-function-web:1.3.4")
+    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:$micronautVersion")
+    testRuntimeOnly("io.micronaut:micronaut-function-web:$micronautVersion")
 }
 
 tasks {
