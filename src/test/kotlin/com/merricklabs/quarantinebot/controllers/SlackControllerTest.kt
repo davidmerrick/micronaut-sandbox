@@ -1,7 +1,7 @@
 package com.merricklabs.quarantinebot.controllers
 
 import com.merricklabs.quarantinebot.Application
-import com.merricklabs.quarantinebot.external.slack.messages.MessageType
+import com.merricklabs.quarantinebot.external.slack.MessageType
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.RxHttpClient
@@ -9,6 +9,7 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
@@ -35,6 +36,8 @@ class SlackControllerTest {
 
         val response = client.exchange(request)
                 .blockingFirst()
+        val body = String(response.body()!!.toByteArray())
+        assertTrue(body.contains("foo"))
         assertEquals(response.status, HttpStatus.OK)
     }
 }

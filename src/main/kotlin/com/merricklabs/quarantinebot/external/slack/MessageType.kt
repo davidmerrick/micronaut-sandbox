@@ -1,4 +1,4 @@
-package com.merricklabs.quarantinebot.external.slack.messages
+package com.merricklabs.quarantinebot.external.slack
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
