@@ -1,5 +1,6 @@
-package com.merricklabs.quarantinebot
+package com.merricklabs.quarantinebot.controllers
 
+import com.merricklabs.quarantinebot.Application
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
 @MicronautTest(application = Application::class)
-class PingControllerTest {
+class SlackControllerTest {
     @Inject
     lateinit var server: EmbeddedServer
 
@@ -20,8 +21,7 @@ class PingControllerTest {
     @Test
     fun testPing() {
         val response = client.toBlocking()
-                .retrieve("/ping")
-        assertTrue(response.contains("pong"))
-
+                .retrieve("/slack")
+        assertTrue(response.contains("bar"))
     }
 }
