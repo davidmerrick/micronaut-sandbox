@@ -44,11 +44,10 @@ dependencies {
     testImplementation("io.micronaut.test:micronaut-test-spock:$micronautTestVersion")
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:$micronautTestVersion")
     testImplementation("io.micronaut.test:micronaut-test-junit5:$micronautTestVersion")
-
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.8")
-    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:$micronautVersion")
-    testRuntimeOnly("io.micronaut:micronaut-function-web:$micronautVersion")
+    testImplementation("io.micronaut:micronaut-http-server-netty:$micronautVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
+    testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.8")
+    testImplementation("io.micronaut:micronaut-function-web:$micronautVersion")
 }
 
 tasks {
