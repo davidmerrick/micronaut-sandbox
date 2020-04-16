@@ -1,5 +1,6 @@
 # micronaut-quarantinebot
-Trying out a Micronaut project on AWS Lambda.
+
+Toy Slack bot to try out using Micronaut with AWS Lambda.
 
 # Running tests locally
 

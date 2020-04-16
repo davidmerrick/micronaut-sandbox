@@ -24,8 +24,11 @@ application {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50")
     implementation("io.micronaut:micronaut-runtime:$micronautVersion")
-    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:$micronautVersion")
+    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:$micronautVersion"){
+        exclude(group = "com.fasterxml.jackson.module", module = "jackson-module-afterburner")
+    }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("org.slf4j:slf4j-api:1.7.30")
 
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-inject-java")

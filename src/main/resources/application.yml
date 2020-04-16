@@ -1,3 +1,11 @@
 micronaut:
   function:
     name: com.merricklabs
+
+slack:
+  foo: bar
+  token:
+
+logger:
+  levels:
+    com.merricklabs.quarantinebot: DEBUG
