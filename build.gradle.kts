@@ -29,6 +29,7 @@ dependencies {
     }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.slf4j:slf4j-api:1.7.30")
+    implementation("com.squareup.okhttp3:okhttp:4.5.0")
 
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-inject-java")

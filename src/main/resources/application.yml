@@ -3,7 +3,6 @@ micronaut:
     name: com.merricklabs
 
 slack:
-  foo: bar
   token:
 
 logger:
