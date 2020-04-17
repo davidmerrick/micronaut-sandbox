@@ -29,14 +29,15 @@ dependencies {
     }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.slf4j:slf4j-api:1.7.30")
-    implementation("com.squareup.okhttp3:okhttp:4.5.0")
+//    implementation("com.squareup.okhttp3:okhttp:4.5.0")
+    implementation("io.github.microutils:kotlin-logging:1.7.2")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.9.1")
 
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
 
     runtimeOnly("com.amazonaws:aws-lambda-java-log4j2:1.0.0")
-    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.9.1")
 
     // Test
 

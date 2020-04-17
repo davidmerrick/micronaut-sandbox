@@ -1,7 +1,6 @@
 package com.merricklabs.quarantinebot.controllers
 
 import com.merricklabs.quarantinebot.Application
-import com.merricklabs.quarantinebot.external.slack.MessageType
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.RxHttpClient
@@ -27,7 +26,7 @@ class SlackControllerTest {
         val challenge = mapOf(
                 "challenge" to "foo",
                 "token" to "banana",
-                "type" to MessageType.URL_VERIFICATION.toString()
+                "type" to "url_verification"
         )
         val request = HttpRequest.POST(
                 "/slack/events",
