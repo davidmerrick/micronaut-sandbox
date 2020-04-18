@@ -1,6 +1,8 @@
 # Reference:
 # https://learn.hashicorp.com/terraform/aws/lambda-api-gateway
 
+variable appName {}
+
 provider "aws" {
   profile    = "terraform-sandbox"
   region     = "us-west-2"
@@ -9,8 +11,8 @@ provider "aws" {
 # API Gateway
 
 resource "aws_api_gateway_rest_api" "example" {
-  name        = "quarantinebot"
-  description = "API for quarantinebot"
+  name        = var.appName
+  description = "API for ${var.appName}"
 }
 
 resource "aws_api_gateway_resource" "proxy" {
@@ -36,27 +38,9 @@ resource "aws_api_gateway_integration" "lambda" {
   uri                     = aws_lambda_function.lambda.invoke_arn
 }
 
-resource "aws_api_gateway_method" "proxy_root" {
-  rest_api_id   = aws_api_gateway_rest_api.example.id
-  resource_id   = aws_api_gateway_rest_api.example.root_resource_id
-  http_method   = "ANY"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_integration" "lambda_root" {
-  rest_api_id = aws_api_gateway_rest_api.example.id
-  resource_id = aws_api_gateway_method.proxy_root.resource_id
-  http_method = aws_api_gateway_method.proxy_root.http_method
-
-  integration_http_method = "ANY"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda.invoke_arn
-}
-
 resource "aws_api_gateway_deployment" "example" {
   depends_on = [
-    aws_api_gateway_integration.lambda,
-    aws_api_gateway_integration.lambda_root,
+    aws_api_gateway_integration.lambda
   ]
 
   rest_api_id = aws_api_gateway_rest_api.example.id
@@ -82,7 +66,7 @@ output "base_url" {
 
 resource "aws_lambda_function" "lambda" {
   filename = "../build/libs/quarantinebot.jar"
-  function_name = "quarantinebot"
+  function_name = var.appName
   role = aws_iam_role.lambda-exec.arn
   handler = "com.merricklabs.quarantinebot.StreamLambdaHandler"
   runtime = "java8"
@@ -97,7 +81,7 @@ resource "aws_lambda_function" "lambda" {
 }
 
 resource "aws_iam_role" "lambda-exec" {
-  name = "quarantinebot-lambda"
+  name = "${var.appName}-lambda"
 
   assume_role_policy = <<POLICY
 {
