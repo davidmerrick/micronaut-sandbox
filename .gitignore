@@ -6,3 +6,6 @@ gradle-app.setting
 build
 out/
 .kotlintest/
+.terraform/
+*.tfstate
+*.tfstate.backup
