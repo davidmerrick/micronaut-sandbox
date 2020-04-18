@@ -6,6 +6,8 @@ provider "aws" {
   region     = "us-west-2"
 }
 
+# API Gateway
+
 resource "aws_api_gateway_rest_api" "example" {
   name        = "quarantinebot"
   description = "API for quarantinebot"
@@ -58,7 +60,7 @@ resource "aws_api_gateway_deployment" "example" {
   ]
 
   rest_api_id = aws_api_gateway_rest_api.example.id
-  stage_name  = "test"
+  stage_name  = "prd"
 }
 
 resource "aws_lambda_permission" "apigw" {
@@ -76,10 +78,12 @@ output "base_url" {
   value = aws_api_gateway_deployment.example.invoke_url
 }
 
+# Lambda
+
 resource "aws_lambda_function" "lambda" {
   filename = "../build/libs/quarantinebot.jar"
   function_name = "quarantinebot"
-  role = aws_iam_role.role.arn
+  role = aws_iam_role.lambda-exec.arn
   handler = "com.merricklabs.quarantinebot.StreamLambdaHandler"
   runtime = "java8"
   memory_size = 512
@@ -92,8 +96,8 @@ resource "aws_lambda_function" "lambda" {
   }
 }
 
-resource "aws_iam_role" "role" {
-  name = "myrole"
+resource "aws_iam_role" "lambda-exec" {
+  name = "quarantinebot-lambda"
 
   assume_role_policy = <<POLICY
 {
@@ -110,4 +114,35 @@ resource "aws_iam_role" "role" {
   ]
 }
 POLICY
+}
+
+# CloudWatch logging
+
+# See also the following AWS managed policy: AWSLambdaBasicExecutionRole
+resource "aws_iam_policy" "lambda_logging" {
+  name        = "lambda_logging"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.lambda-exec.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
 }
