@@ -7,7 +7,7 @@ slack:
   token:
 
 quarantineBot:
-  quarantineDate: 2020-03-11
+  quarantineDate:
 
 logger:
   levels:

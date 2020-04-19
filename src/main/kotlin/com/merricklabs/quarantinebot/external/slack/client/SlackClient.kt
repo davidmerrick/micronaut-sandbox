@@ -31,7 +31,7 @@ class SlackClient {
         request.headers.add("Authorization", "Bearer $slackToken")
         val response = client.exchange(request)
                 .blockingFirst()
-        if(response.status != HttpStatus.OK){
+        if (response.status != HttpStatus.OK) {
             log.error("Received bad status from Slack: ${response.status}")
         } else {
             log.info("Success: Posted response to Slack")

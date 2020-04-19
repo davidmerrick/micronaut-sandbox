@@ -18,14 +18,10 @@ import kotlin.math.abs
 private val log = KotlinLogging.logger {}
 
 @Singleton
-class SlackMessageDispatcher {
-
-    @Inject
-    lateinit var config: QuarantineBotConfig
-
-    @Inject
-    lateinit var slackClient: SlackClient
-
+class SlackMessageDispatcher @Inject constructor(
+        private val slackClient: SlackClient,
+        private val config: QuarantineBotConfig
+) {
     fun dispatch(message: SlackMessage): HttpResponse<String> {
         log.info("Received Slack message of type ${message.type}")
         return when (message) {
