@@ -69,7 +69,7 @@ resource "aws_lambda_function" "lambda" {
   function_name = var.appName
   role = aws_iam_role.lambda-exec.arn
   handler = "com.merricklabs.quarantinebot.StreamLambdaHandler"
-  runtime = "java8"
+  runtime = "java11"
   memory_size = 512
   timeout = 15
 
