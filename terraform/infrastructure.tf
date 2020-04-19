@@ -71,7 +71,7 @@ resource "aws_lambda_function" "lambda" {
   handler = "com.merricklabs.quarantinebot.StreamLambdaHandler"
   runtime = "java8"
   memory_size = 512
-  timeout = 10
+  timeout = 15
 
   environment {
     variables = {
