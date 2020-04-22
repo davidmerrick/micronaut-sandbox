@@ -2,13 +2,13 @@ package com.merricklabs.quarantinebot
 
 import io.micronaut.runtime.Micronaut
 
-object Application {
+object TestApplication {
 
     @JvmStatic
     fun main(args: Array<String>) {
         Micronaut.build()
-                .packages("com.merricklabs.quarantinebot")
                 .mainClass(Application.javaClass)
+                .environments("test")
                 .start()
     }
 }

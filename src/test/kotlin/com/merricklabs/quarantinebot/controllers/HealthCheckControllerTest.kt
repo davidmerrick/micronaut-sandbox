@@ -1,6 +1,6 @@
 package com.merricklabs.quarantinebot.controllers
 
-import com.merricklabs.quarantinebot.Application
+import com.merricklabs.quarantinebot.TestApplication
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
-@MicronautTest(application = Application::class)
+@MicronautTest(application = TestApplication::class)
 class HealthCheckControllerTest {
     @Inject
     lateinit var server: EmbeddedServer

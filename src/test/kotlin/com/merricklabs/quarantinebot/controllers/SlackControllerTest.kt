@@ -1,18 +1,16 @@
 package com.merricklabs.quarantinebot.controllers
 
-import com.merricklabs.quarantinebot.Application
+import com.merricklabs.quarantinebot.TestApplication
+import io.kotlintest.shouldBe
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.annotation.MicronautTest
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
-@MicronautTest(application = Application::class)
+@MicronautTest(application = TestApplication::class)
 class SlackControllerTest {
     @Inject
     lateinit var server: EmbeddedServer
@@ -23,20 +21,21 @@ class SlackControllerTest {
 
     @Test
     fun `Handle Slack challenge`() {
-        val challenge = mapOf(
-                "challenge" to "foo",
+        val challenge = "foo"
+        val payload = mapOf(
+                "challenge" to challenge,
                 "token" to "banana",
                 "type" to "url_verification"
         )
         val request = HttpRequest.POST(
                 "/slack/events",
-                challenge
+                payload
         )
 
-        val response = client.exchange(request)
+        val response = client
+                .retrieve(request)
                 .blockingFirst()
-        val body = String(response.body()!!.toByteArray())
-        assertTrue(body.contains("foo"))
-        assertEquals(response.status, HttpStatus.OK)
+
+        response.contains(challenge) shouldBe true
     }
 }
