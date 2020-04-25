@@ -1,6 +1,7 @@
 package com.merricklabs.quarantinebot.controllers
 
 import com.merricklabs.quarantinebot.TestApplication
+import com.merricklabs.quarantinebot.client.MockSlackClient
 import com.merricklabs.quarantinebot.external.slack.client.SlackClient
 import com.merricklabs.quarantinebot.external.slack.client.SlackClientImpl
 import com.merricklabs.quarantinebot.external.slack.client.SlackResponse
@@ -71,8 +72,6 @@ class SlackControllerTest {
                 )
         )
 
-        val argumentCaptor = ArgumentCaptor
-                .forClass(CreateMessagePayload::class.java)
         val request = HttpRequest.POST(
                 EVENTS_ENDPOINT,
                 payload
@@ -84,12 +83,14 @@ class SlackControllerTest {
 
         status shouldBe HttpStatus.OK
         // Todo: Get this argumentCaptor working
-//        Mockito.verify(slackClient)
-//                .postMessage(argumentCaptor.capture())
-//        val captured = argumentCaptor.value
-//        captured.text.toLowerCase() shouldContain "this many days"
+        val argumentCaptor = ArgumentCaptor
+                .forClass(CreateMessagePayload::class.java)
+        Mockito.verify(slackClient)
+                .postMessage(argumentCaptor.capture())
+        val captured = argumentCaptor.value
+        captured.text.toLowerCase() shouldContain "this many days"
     }
 
-    @MockBean(SlackClientImpl::class)
-    fun slackClient(): SlackClient = Mockito.mock(SlackClient::class.java)
+    @MockBean(SlackClient::class)
+    fun slackClient(): SlackClient = Mockito.mock(MockSlackClient::class.java)
 }
