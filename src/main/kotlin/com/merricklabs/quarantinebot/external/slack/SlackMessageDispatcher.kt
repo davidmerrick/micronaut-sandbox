@@ -36,6 +36,7 @@ class SlackMessageDispatcher @Inject constructor(
             }
         }
     }
+
     private fun handleEventCallback(message: EventCallbackMessage) {
         log.info("Handling event callback message")
         if (message.event.subtype == "bot_message" || message.event.botId != null) {

@@ -12,9 +12,6 @@ import javax.inject.Inject
 @MicronautTest(application = TestApplication::class)
 class HealthCheckControllerTest {
     @Inject
-    lateinit var server: EmbeddedServer
-
-    @Inject
     @field:Client("/")
     lateinit var client: RxHttpClient
 

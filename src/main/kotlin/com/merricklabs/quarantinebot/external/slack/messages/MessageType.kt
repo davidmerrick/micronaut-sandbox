@@ -9,7 +9,7 @@ const val MESSAGE_STRING = "message"
 enum class MessageType {
     @JsonProperty(URL_VERIFICATION_STRING)
     URL_VERIFICATION,
-    @JsonProperty(URL_VERIFICATION_STRING)
+    @JsonProperty(EVENT_CALLBACK_STRING)
     EVENT_CALLBACK,
     @JsonProperty(MESSAGE_STRING)
     MESSAGE

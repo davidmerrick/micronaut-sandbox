@@ -2,12 +2,12 @@ micronaut:
   function:
     name: com.merricklabs
 
+quarantineBot:
+  quarantineDate: "2020-03-11"
+
 slack:
   botName: quarantinebot
   token:
-
-quarantineBot:
-  quarantineDate: "2020-03-11"
 
 logger:
   levels:

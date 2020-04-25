@@ -11,10 +11,9 @@ import io.micronaut.http.annotation.Produces
 import javax.inject.Inject
 
 @Controller("/slack")
-class SlackController {
-
-    @Inject
-    private lateinit var dispatcher: SlackMessageDispatcher
+class SlackController @Inject constructor(
+        private val dispatcher: SlackMessageDispatcher
+) {
 
     @Post("/events")
     @Produces(MediaType.TEXT_PLAIN)
