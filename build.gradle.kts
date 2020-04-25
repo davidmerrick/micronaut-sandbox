@@ -53,6 +53,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
     testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.8")
     testImplementation("io.micronaut:micronaut-function-web:$micronautVersion")
+    testImplementation("org.mockito:mockito-core:3.3.3")
 }
 
 tasks {
