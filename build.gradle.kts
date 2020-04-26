@@ -11,6 +11,8 @@ plugins {
     application
 }
 
+// Compiler plugin which makes classes with the following
+// annotations open
 allOpen {
     annotations(
             "io.micronaut.aop.Around",
