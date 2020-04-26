@@ -1,36 +1,32 @@
 package com.merricklabs.quarantinebot.controllers
 
 import com.merricklabs.quarantinebot.TestApplication
-import com.merricklabs.quarantinebot.client.MockSlackClient
 import com.merricklabs.quarantinebot.external.slack.client.SlackClient
-import com.merricklabs.quarantinebot.external.slack.client.SlackClientImpl
-import com.merricklabs.quarantinebot.external.slack.client.SlackResponse
 import com.merricklabs.quarantinebot.external.slack.messages.CreateMessagePayload
 import com.merricklabs.quarantinebot.external.slack.messages.EVENT_CALLBACK_STRING
-import com.merricklabs.quarantinebot.testutil.TestUtil.any
 import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
-import io.micronaut.context.annotation.Replaces
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MicronautTest
 import io.micronaut.test.annotation.MockBean
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.slot
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.Mockito
-import org.mockito.Mockito.times
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private const val EVENTS_ENDPOINT = "/slack/events"
 
 @MicronautTest(application = TestApplication::class)
 class SlackControllerTest {
 
-    @Inject
-    lateinit var slackClient: SlackClient
+    @get:MockBean(SlackClient::class)
+    val slackClient = mockk<SlackClient>()
 
     @Inject
     @field:Client("/")
@@ -72,6 +68,11 @@ class SlackControllerTest {
                 )
         )
 
+        val slot = slot<CreateMessagePayload>()
+        every {
+            slackClient.postMessage(capture(slot))
+        } just Runs
+
         val request = HttpRequest.POST(
                 EVENTS_ENDPOINT,
                 payload
@@ -82,15 +83,6 @@ class SlackControllerTest {
                 .blockingFirst()
 
         status shouldBe HttpStatus.OK
-        // Todo: Get this argumentCaptor working
-        val argumentCaptor = ArgumentCaptor
-                .forClass(CreateMessagePayload::class.java)
-        Mockito.verify(slackClient)
-                .postMessage(argumentCaptor.capture())
-        val captured = argumentCaptor.value
-        captured.text.toLowerCase() shouldContain "this many days"
+        slot.captured.text.toLowerCase() shouldContain "this many days"
     }
-
-    @MockBean(SlackClient::class)
-    fun slackClient(): SlackClient = Mockito.mock(MockSlackClient::class.java)
 }

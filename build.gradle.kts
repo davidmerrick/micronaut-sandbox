@@ -7,7 +7,16 @@ plugins {
     id("com.github.johnrengelman.shadow") version "5.2.0"
     kotlin("jvm") version "1.3.50"
     kotlin("kapt") version "1.3.50"
+    kotlin("plugin.allopen") version "1.3.72"
     application
+}
+
+allOpen {
+    annotations(
+            "io.micronaut.aop.Around",
+            "io.micronaut.http.annotation.Controller",
+            "javax.inject.Singleton"
+    )
 }
 
 group = "com.merricklabs.quarantinebot"
@@ -53,7 +62,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
     testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.8")
     testImplementation("io.micronaut:micronaut-function-web:$micronautVersion")
-    testImplementation("org.mockito:mockito-core:3.3.3")
+    testImplementation("io.mockk:mockk:1.10.0")
 }
 
 tasks {

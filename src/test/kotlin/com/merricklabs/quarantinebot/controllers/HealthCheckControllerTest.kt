@@ -3,7 +3,6 @@ package com.merricklabs.quarantinebot.controllers
 import com.merricklabs.quarantinebot.TestApplication
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
-import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
