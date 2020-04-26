@@ -41,7 +41,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("io.github.microutils:kotlin-logging:1.7.2")
     implementation("io.micronaut:micronaut-http-client:$micronautVersion")
-    implementation("org.slf4j:slf4j-api:1.7.30")
+    implementation("org.slf4j:slf4j-simple:1.8.0-beta4")
 
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-inject-java")
@@ -58,9 +58,7 @@ dependencies {
     testImplementation("io.micronaut.test:micronaut-test-spock:$micronautTestVersion")
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:$micronautTestVersion")
     testImplementation("io.micronaut.test:micronaut-test-junit5:$micronautTestVersion")
-    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:$micronautVersion"){
-        exclude(group = "org.slf4j", module = "slf4j-api")
-    }
+    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:$micronautVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
     testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.8")
     testImplementation("io.micronaut:micronaut-function-web:$micronautVersion")

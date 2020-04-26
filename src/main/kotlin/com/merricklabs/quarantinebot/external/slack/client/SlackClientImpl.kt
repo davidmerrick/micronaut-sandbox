@@ -15,12 +15,12 @@ import javax.inject.Singleton
 private val log = KotlinLogging.logger {}
 
 @Singleton
-open class SlackClientImpl
+class SlackClientImpl
 @Inject constructor(
         private val slackConfig: SlackConfig,
         @param:Client(BASE_API_PATH)
         private val client: RxHttpClient
-) : SlackClient() {
+) : SlackClient {
     override fun postMessage(payload: CreateMessagePayload) {
         val request = HttpRequest.POST(
                 POST_MESSAGE_ENDPOINT,
