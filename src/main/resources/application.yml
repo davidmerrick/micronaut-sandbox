@@ -1,6 +1,6 @@
 micronaut:
-  function:
-    name: com.merricklabs
+  application:
+    name: quarantinebot
 
 quarantineBot:
   quarantineDate: "2020-03-11"

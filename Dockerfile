@@ -26,7 +26,6 @@ WORKDIR /home/application
 RUN /usr/lib/graalvm/bin/gu install native-image
 RUN /usr/lib/graalvm/bin/native-image \
     --no-server \
-    --initialize-at-run-time=io.micronaut.function.aws.proxy.AbstractLambdaContainerHandler,com.amazonaws.serverless.proxy.internal.LambdaContainerHandler \
     -cp build/fatjar/quarantinebot.jar
 RUN chmod 755 quarantinebot
 RUN chmod 755 bootstrap

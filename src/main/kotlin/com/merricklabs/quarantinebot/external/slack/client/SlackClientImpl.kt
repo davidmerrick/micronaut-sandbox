@@ -25,7 +25,7 @@ class SlackClientImpl
                 payload
         )
         request.headers.add("Authorization", "Bearer ${slackConfig.token}")
-        val response = client.retrieve(request, HttpStatus::class.java)
+        val response = client.toBlocking().retrieve(request, HttpStatus::class.java)
         if (response != HttpStatus.OK) {
             log.error("Received bad status from Slack: $response")
         } else {

@@ -30,7 +30,7 @@ val micronautVersion by extra("1.3.4")
 val jacksonVersion by extra("2.9.10")
 
 application {
-    mainClassName = "com.merricklabs.quarantinebot.Application"
+    mainClassName = "com.merricklabs.quarantinebot.ApplicationKt"
     applicationDefaultJvmArgs = emptyList()
 }
 
@@ -38,12 +38,13 @@ dependencies {
     compileOnly("org.graalvm.nativeimage:svm:20.0.0")
 
     implementation("io.micronaut:micronaut-http-server-netty:$micronautVersion")
+    implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50")
     implementation("io.micronaut:micronaut-runtime:$micronautVersion")
-    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy:1.4.1") {
+    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy") {
         exclude(group = "com.fasterxml.jackson.module", module = "jackson-module-afterburner")
     }
-    implementation("io.micronaut.aws:micronaut-function-aws-custom-runtime:1.4.1") {
+    implementation("io.micronaut.aws:micronaut-function-aws-custom-runtime") {
         exclude(group = "com.fasterxml.jackson.module", module = "jackson-module-afterburner")
     }
     implementation("io.micronaut:micronaut-inject:$micronautVersion")
@@ -51,9 +52,10 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("io.github.microutils:kotlin-logging:1.7.2")
     implementation("org.slf4j:slf4j-simple:1.8.0-beta4")
+    implementation("javax.annotation:javax.annotation-api")
 
-    kapt("io.micronaut:micronaut-graal:$micronautVersion")
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    kapt("io.micronaut:micronaut-graal")
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
 
@@ -95,6 +97,13 @@ tasks {
 
     withType<JavaCompile> {
         options.encoding = "UTF-8"
+        options.compilerArgs.add("-parameters")
+    }
+
+    named<JavaExec>("run") {
+        doFirst {
+            jvmArgs = listOf("-noverify", "-XX:TieredStopAtLevel=1", "-Dcom.sun.management.jmxremote")
+        }
     }
 }
 
