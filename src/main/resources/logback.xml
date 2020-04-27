@@ -10,5 +10,5 @@
     <root level="error">
         <appender-ref ref="STDOUT" />
     </root>
-    <logger name="com.merricklabs.quarantinebot" level="debug"/>
+    <logger name="com.merricklabs.quarantinebot" level="DEBUG"/>
 </configuration>

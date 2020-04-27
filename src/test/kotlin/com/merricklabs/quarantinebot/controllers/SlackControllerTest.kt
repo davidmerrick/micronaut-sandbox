@@ -8,6 +8,7 @@ import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
+import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MicronautTest
@@ -30,7 +31,7 @@ class SlackControllerTest {
 
     @Inject
     @field:Client("/")
-    lateinit var client: RxHttpClient
+    lateinit var client: HttpClient
 
     @Test
     fun `Handle Slack challenge`() {
@@ -46,8 +47,8 @@ class SlackControllerTest {
         )
 
         val response = client
+                .toBlocking()
                 .retrieve(request)
-                .blockingFirst()
 
         response.contains(challenge) shouldBe true
     }
@@ -79,8 +80,8 @@ class SlackControllerTest {
         )
 
         val status = client
+                .toBlocking()
                 .retrieve(request, HttpStatus::class.java)
-                .blockingFirst()
 
         status shouldBe HttpStatus.OK
         slot.captured.text.toLowerCase() shouldContain "this many days"

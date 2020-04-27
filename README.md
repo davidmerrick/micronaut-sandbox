@@ -13,3 +13,7 @@ Serverless Slack bot which tells you how long you've been quarantined in units o
 
 1. Do a `./gradlew build` to generate kapt annotations
 2. Run tests as usual in IntelliJ
+
+# References
+
+* [Micronaut GraalVM tutorial](https://guides.micronaut.io/micronaut-function-graalvm-aws-lambda-gateway/guide/index.html)
