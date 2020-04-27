@@ -3,11 +3,12 @@ COPY --chown=gradle:gradle . /home/application
 WORKDIR /home/application
 RUN gradle assemble --no-daemon -x test
 
-FROM amazonlinux:2018.03.0.20191014.0 as graalvm
+FROM amazonlinux:2018.03.0.20200318.1 as graalvm
 
 ENV LANG=en_US.UTF-8
 
-RUN yum install -y gcc gcc-c++ libc6-dev  zlib1g-dev curl bash zlib zlib-devel zip
+RUN yum install -y gcc gcc-c++ libc6-dev  zlib1g-dev \
+    curl bash zlib zlib-devel zip
 
 ENV GRAAL_VERSION 20.0.0
 ENV GRAAL_FILENAME graalvm-ce-java11-linux-amd64-${GRAAL_VERSION}.tar.gz

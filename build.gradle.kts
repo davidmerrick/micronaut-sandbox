@@ -5,7 +5,6 @@ repositories {
 }
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "5.2.0"
     kotlin("jvm") version "1.3.72"
     kotlin("kapt") version "1.3.72"
     kotlin("plugin.allopen") version "1.3.72"
@@ -55,7 +54,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.github.microutils:kotlin-logging:1.7.2")
     implementation("org.slf4j:slf4j-simple:1.8.0-beta4")
-    implementation("javax.annotation:javax.annotation-api")
 
     // Test
 
@@ -92,32 +90,27 @@ tasks {
         useJUnitPlatform()
     }
 
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        options.compilerArgs.add("-parameters")
-    }
-
     named<JavaExec>("run") {
         doFirst {
             jvmArgs = listOf("-noverify", "-XX:TieredStopAtLevel=1", "-Dcom.sun.management.jmxremote")
         }
     }
-}
 
-val fatjar by tasks.creating(Jar::class) {
-    from(kraal.outputZipTrees) {
-        exclude("META-INF/*.SF")
-        exclude("META-INF/*.DSA")
-        exclude("META-INF/*.RSA")
+    val fatjar by creating(Jar::class) {
+        from(project.kraal.outputZipTrees) {
+            exclude("META-INF/*.SF")
+            exclude("META-INF/*.DSA")
+            exclude("META-INF/*.RSA")
+        }
+
+        manifest {
+            attributes["Main-Class"] = application.mainClassName
+        }
+        destinationDirectory.set(project.buildDir.resolve("fatjar"))
+        archiveFileName.set("quarantinebot.jar")
     }
 
-    manifest {
-        attributes["Main-Class"] = application.mainClassName
+    named("assemble") {
+        dependsOn(fatjar)
     }
-    destinationDirectory.set(project.buildDir.resolve("fatjar"))
-    archiveFileName.set("quarantinebot.jar")
-}
-
-tasks.named("assemble") {
-    dependsOn(fatjar)
 }
