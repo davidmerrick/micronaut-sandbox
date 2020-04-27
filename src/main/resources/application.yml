@@ -2,6 +2,11 @@ micronaut:
   application:
     name: quarantinebot
 
+jackson:
+  serializationInclusion: NON_NULL
+  deserialization:
+    failOnUnknownProperties: false
+
 quarantineBot:
   quarantineDate: "2020-03-11"
 

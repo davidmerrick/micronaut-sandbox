@@ -1,6 +1,5 @@
 package com.merricklabs.quarantinebot.util
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -19,6 +18,5 @@ class CustomObjectMapperFactory : ObjectMapperFactory() {
     override fun objectMapper(jacksonConfiguration: JacksonConfiguration?, jsonFactory: JsonFactory?): ObjectMapper {
         return super.objectMapper(jacksonConfiguration, jsonFactory)
                 .registerKotlinModule()
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
     }
 }
