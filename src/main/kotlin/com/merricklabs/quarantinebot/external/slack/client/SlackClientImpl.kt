@@ -4,6 +4,8 @@ import com.merricklabs.quarantinebot.config.SlackConfig
 import com.merricklabs.quarantinebot.external.slack.SlackPaths.BASE_API_PATH
 import com.merricklabs.quarantinebot.external.slack.SlackPaths.POST_MESSAGE_ENDPOINT
 import com.merricklabs.quarantinebot.external.slack.messages.CreateMessagePayload
+import io.micronaut.aop.Introduction
+import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
@@ -14,6 +16,8 @@ import javax.inject.Singleton
 private val log = KotlinLogging.logger {}
 
 @Singleton
+@Introspected
+@Introduction(interfaces = [SlackClient::class])
 class SlackClientImpl
 @Inject constructor(
         private val slackConfig: SlackConfig,

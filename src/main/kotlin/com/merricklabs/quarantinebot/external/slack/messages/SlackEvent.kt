@@ -7,10 +7,15 @@ import io.micronaut.core.annotation.Introspected
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Introspected
 data class SlackEvent(
-        val type: SlackEventType,
+        @JsonProperty("type")
+        val type: String,
+        @JsonProperty("subtype")
         val subtype: String?,
+        @JsonProperty("user")
         val user: String,
+        @JsonProperty("text")
         val text: String,
+        @JsonProperty("channel")
         val channel: String,
         @JsonProperty("channel_type")
         val channelType: String,

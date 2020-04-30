@@ -7,6 +7,7 @@ import com.merricklabs.quarantinebot.external.slack.messages.EventCallbackMessag
 import com.merricklabs.quarantinebot.external.slack.messages.SlackChallenge
 import com.merricklabs.quarantinebot.external.slack.messages.SlackMessage
 import com.merricklabs.quarantinebot.util.OutputFormatter
+import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.HttpResponse
 import mu.KotlinLogging
 import java.time.LocalDate
@@ -18,6 +19,7 @@ import kotlin.math.abs
 private val log = KotlinLogging.logger {}
 
 @Singleton
+@Introspected
 class SlackMessageDispatcher @Inject constructor(
         private val slackClient: SlackClient,
         private val config: QuarantineBotConfig
