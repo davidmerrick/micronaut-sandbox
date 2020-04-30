@@ -17,3 +17,4 @@ Serverless Slack bot which tells you how long you've been quarantined in units o
 # References
 
 * [Micronaut GraalVM tutorial](https://guides.micronaut.io/micronaut-function-graalvm-aws-lambda-gateway/guide/index.html)
+* [Netty on GraalVM](https://medium.com/graalvm/instant-netty-startup-using-graalvm-native-image-generation-ed6f14ff7692)

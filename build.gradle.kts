@@ -5,6 +5,7 @@ repositories {
 }
 
 plugins {
+    id("com.github.johnrengelman.shadow") version "5.2.0"
     kotlin("jvm") version "1.3.72"
     kotlin("kapt") version "1.3.72"
     kotlin("plugin.allopen") version "1.3.72"
@@ -24,15 +25,13 @@ allOpen {
 
 group = "com.merricklabs.quarantinebot"
 
-val micronautTestVersion by extra("1.1.5")
-val micronautVersion by extra("1.3.4")
-
 application {
-    mainClassName = "com.merricklabs.quarantinebot.ApplicationKt"
-    applicationDefaultJvmArgs = emptyList()
+    mainClassName = "com.merricklabs.quarantinebot.Application"
 }
 
 dependencies {
+    val micronautVersion by extra("1.3.4")
+
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-graal")
     kapt("io.micronaut:micronaut-inject-java")
@@ -41,7 +40,6 @@ dependencies {
     compileOnly("org.graalvm.nativeimage:svm:20.0.0")
 
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.aws:micronaut-function-aws-api-proxy") {
         exclude(group = "com.fasterxml.jackson.module", module = "jackson-module-afterburner")
@@ -96,21 +94,21 @@ tasks {
         }
     }
 
-    val fatjar by creating(Jar::class) {
-        from(project.kraal.outputZipTrees) {
-            exclude("META-INF/*.SF")
-            exclude("META-INF/*.DSA")
-            exclude("META-INF/*.RSA")
-        }
+    shadowJar {
+        archiveBaseName.set("quarantinebot")
+        archiveClassifier.set("")
+        archiveVersion.set("")
+        mergeServiceFiles()
+        transform(com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer::class.java)
+    }
 
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
+    withType<Jar> {
         manifest {
             attributes["Main-Class"] = application.mainClassName
         }
-        destinationDirectory.set(project.buildDir.resolve("fatjar"))
-        archiveFileName.set("quarantinebot.jar")
-    }
-
-    named("assemble") {
-        dependsOn(fatjar)
     }
 }
