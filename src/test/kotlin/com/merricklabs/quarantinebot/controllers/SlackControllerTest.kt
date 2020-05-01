@@ -2,6 +2,7 @@ package com.merricklabs.quarantinebot.controllers
 
 import com.merricklabs.quarantinebot.TestApplication
 import com.merricklabs.quarantinebot.external.slack.client.SlackClient
+import com.merricklabs.quarantinebot.external.slack.client.SlackClientImpl
 import com.merricklabs.quarantinebot.external.slack.messages.CreateMessagePayload
 import com.merricklabs.quarantinebot.external.slack.messages.EVENT_CALLBACK_STRING
 import io.kotlintest.matchers.string.shouldContain
@@ -26,7 +27,7 @@ private const val EVENTS_ENDPOINT = "/slack/events"
 @MicronautTest(application = TestApplication::class)
 class SlackControllerTest {
 
-    @get:MockBean(SlackClient::class)
+    @get:MockBean(SlackClientImpl::class)
     val slackClient = mockk<SlackClient>()
 
     @Inject

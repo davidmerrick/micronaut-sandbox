@@ -7,12 +7,9 @@ import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
-import javax.inject.Inject
 
 @Controller("/slack")
-class SlackController @Inject constructor(
-        private val dispatcher: SlackMessageDispatcher
-) {
+class SlackController(private val dispatcher: SlackMessageDispatcher) {
 
     @Post("/events",
         consumes = [MediaType.APPLICATION_JSON],

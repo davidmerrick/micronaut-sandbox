@@ -3,6 +3,7 @@ micronaut:
     name: quarantinebot
 
 jackson:
+  bean-introspection-module: true
   serializationInclusion: NON_NULL
   deserialization:
     failOnUnknownProperties: false
