@@ -65,13 +65,13 @@ output "base_url" {
 # Lambda
 
 resource "aws_lambda_function" "lambda" {
-  filename = "../build/libs/quarantinebot.jar"
+  filename = "../build/native-image/function.zip"
   function_name = var.appName
   role = aws_iam_role.lambda-exec.arn
-  handler = "com.merricklabs.quarantinebot.StreamLambdaHandler"
-  runtime = "java11"
+  handler = "./bootstrap"
+  runtime = "provided"
   memory_size = 512
-  timeout = 15
+  timeout = 10
 
   environment {
     variables = {
