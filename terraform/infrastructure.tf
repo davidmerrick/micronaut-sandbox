@@ -70,7 +70,7 @@ resource "aws_lambda_function" "lambda" {
   role = aws_iam_role.lambda-exec.arn
   handler = "./bootstrap"
   runtime = "provided"
-  memory_size = 512
+  memory_size = 256
   timeout = 10
 
   environment {
