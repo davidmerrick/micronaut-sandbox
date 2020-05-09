@@ -2,12 +2,6 @@ FROM gradle:6.1.1-jdk11 as builder
 COPY --chown=gradle:gradle . /home/application
 WORKDIR /home/application
 
-# Todo: Remove this once package is published publicly
-ARG GITHUB_TOKEN
-ARG GITHUB_USERNAME
-ENV GITHUB_TOKEN=$GITHUB_TOKEN
-ENV GITHUB_USERNAME=$GITHUB_USERNAME
-
 RUN gradle shadowJar --no-daemon -x test
 
 FROM amazonlinux:2018.03.0.20200318.1 as graalvm

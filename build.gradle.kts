@@ -1,13 +1,7 @@
 repositories {
     mavenCentral()
     jcenter()
-    maven(url = "https://jcenter.bintray.com")
-    maven("https://maven.pkg.github.com/davidmerrick/slakson"){
-        credentials {
-            username = System.getenv("GITHUB_USERNAME")
-            password = System.getenv("GITHUB_TOKEN")
-        }
-    }
+    maven("https://dl.bintray.com/davidmerrick/slakson")
 }
 
 plugins {

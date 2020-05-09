@@ -1,10 +1,10 @@
 package com.merricklabs.quarantinebot.controllers
 
 import com.merricklabs.quarantinebot.TestApplication
-import com.merricklabs.slakson.client.SlackClient
-import com.merricklabs.slakson.client.SlackClientImpl
-import com.merricklabs.slakson.messages.CreateMessagePayload
-import com.merricklabs.slakson.messages.EVENT_CALLBACK_STRING
+import io.github.davidmerrick.slakson.client.SlackClient
+import io.github.davidmerrick.slakson.client.SlackClientImpl
+import io.github.davidmerrick.slakson.messages.CreateMessagePayload
+import io.github.davidmerrick.slakson.messages.EVENT_CALLBACK_STRING
 import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
 import io.micronaut.http.HttpRequest
