@@ -2,6 +2,12 @@ repositories {
     mavenCentral()
     jcenter()
     maven(url = "https://jcenter.bintray.com")
+    maven("https://maven.pkg.github.com/davidmerrick/slakson"){
+        credentials {
+            username = System.getenv("GITHUB_USERNAME")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 plugins {
@@ -53,6 +59,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.7.2")
     implementation("org.slf4j:slf4j-simple:1.8.0-beta4")
     implementation("io.micronaut:micronaut-http-server-netty")
+    implementation("io.github.davidmerrick.slakson:slakson:2.0.0")
 
     // Test
 

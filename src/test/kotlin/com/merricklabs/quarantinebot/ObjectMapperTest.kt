@@ -2,7 +2,7 @@ package com.merricklabs.quarantinebot
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.merricklabs.quarantinebot.external.slack.messages.ChannelType
+import com.merricklabs.slakson.messages.ChannelType
 import io.kotlintest.shouldBe
 import io.micronaut.test.annotation.MicronautTest
 import org.junit.jupiter.api.Test

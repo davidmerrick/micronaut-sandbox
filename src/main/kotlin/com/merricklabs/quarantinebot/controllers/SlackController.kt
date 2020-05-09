@@ -1,7 +1,7 @@
 package com.merricklabs.quarantinebot.controllers
 
-import com.merricklabs.quarantinebot.external.slack.messages.SlackMessage
 import com.merricklabs.quarantinebot.slack.SlackMessageHandler
+import io.github.davidmerrick.slakson.messages.SlackMessage
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller

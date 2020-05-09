@@ -1,15 +1,14 @@
 package com.merricklabs.quarantinebot.slack
 
 import com.merricklabs.quarantinebot.config.QuarantineBotConfig
-import com.merricklabs.quarantinebot.config.SlackConfig
-import com.merricklabs.quarantinebot.external.slack.client.SlackClient
-import com.merricklabs.quarantinebot.external.slack.messages.ChannelType.CHANNEL
-import com.merricklabs.quarantinebot.external.slack.messages.ChannelType.GROUP
-import com.merricklabs.quarantinebot.external.slack.messages.ChannelType.IM
-import com.merricklabs.quarantinebot.external.slack.messages.CreateMessagePayload
-import com.merricklabs.quarantinebot.external.slack.messages.SlackEvent
-import com.merricklabs.quarantinebot.external.slack.messages.SlackEventType
+import io.github.davidmerrick.slakson.messages.SlackEvent
 import com.merricklabs.quarantinebot.util.OutputFormatter
+import io.github.davidmerrick.slakson.client.SlackClient
+import io.github.davidmerrick.slakson.messages.ChannelType.CHANNEL
+import io.github.davidmerrick.slakson.messages.ChannelType.GROUP
+import io.github.davidmerrick.slakson.messages.ChannelType.IM
+import io.github.davidmerrick.slakson.messages.CreateMessagePayload
+import io.github.davidmerrick.slakson.messages.SlackEventType
 import mu.KotlinLogging
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -21,8 +20,7 @@ private val log = KotlinLogging.logger {}
 @Singleton
 class SlackEventHandler(
         private val slackClient: SlackClient,
-        private val config: QuarantineBotConfig,
-        private val slackConfig: SlackConfig
+        private val config: QuarantineBotConfig
 ) {
     fun handle(event: SlackEvent): String? {
         log.info("Handling Slack event")
@@ -36,8 +34,8 @@ class SlackEventHandler(
 
     private fun handleChannelEvent(event: SlackEvent) {
         log.info("Handling channel event")
-        if (event.type != SlackEventType.APP_MENTION && !event.text.contains(slackConfig.botName, true)) {
-            log.info("Text does not contain ${slackConfig.botName}, skipping")
+        if (event.type != SlackEventType.APP_MENTION && !event.text.contains(config.botName, true)) {
+            log.info("Text does not contain ${config.botName}, skipping")
             return
         }
 

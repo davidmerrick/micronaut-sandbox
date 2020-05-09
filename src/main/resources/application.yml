@@ -12,9 +12,9 @@ jackson:
 
 quarantineBot:
   quarantineDate: "2020-03-11"
+  botName: quarantinebot
 
 slack:
-  botName: quarantinebot
   token:
 
 logger:

@@ -1,8 +1,8 @@
 package com.merricklabs.quarantinebot.slack
 
-import com.merricklabs.quarantinebot.external.slack.messages.EventCallbackMessage
-import com.merricklabs.quarantinebot.external.slack.messages.SlackChallenge
-import com.merricklabs.quarantinebot.external.slack.messages.SlackMessage
+import io.github.davidmerrick.slakson.messages.EventCallbackMessage
+import io.github.davidmerrick.slakson.messages.SlackChallenge
+import io.github.davidmerrick.slakson.messages.SlackMessage
 import mu.KotlinLogging
 import javax.inject.Singleton
 

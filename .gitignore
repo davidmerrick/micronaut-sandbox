@@ -10,3 +10,5 @@ out/
 *.tfstate
 *.tfstate.backup
 log/
+.envrc
+.env

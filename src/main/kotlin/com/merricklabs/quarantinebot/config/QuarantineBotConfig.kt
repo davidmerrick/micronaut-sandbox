@@ -10,4 +10,7 @@ import javax.validation.constraints.NotBlank
 class QuarantineBotConfig {
     @get:NotBlank
     lateinit var quarantineDate: LocalDate
+
+    @get:NotBlank
+    lateinit var botName: String
 }
