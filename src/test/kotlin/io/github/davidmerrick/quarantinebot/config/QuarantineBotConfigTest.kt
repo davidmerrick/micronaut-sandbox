@@ -1,6 +1,6 @@
-package com.merricklabs.quarantinebot.config
+package io.github.davidmerrick.quarantinebot.config
 
-import com.merricklabs.quarantinebot.TestApplication
+import io.github.davidmerrick.quarantinebot.TestApplication
 import io.kotlintest.shouldBe
 import io.micronaut.test.annotation.MicronautTest
 import org.junit.jupiter.api.Test

@@ -1,4 +1,4 @@
-package com.merricklabs.quarantinebot.config
+package io.github.davidmerrick.quarantinebot.config
 
 import io.micronaut.context.annotation.ConfigurationProperties
 import java.time.LocalDate

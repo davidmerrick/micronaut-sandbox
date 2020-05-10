@@ -1,8 +1,8 @@
-package com.merricklabs.quarantinebot.slack
+package io.github.davidmerrick.quarantinebot.slack
 
-import com.merricklabs.quarantinebot.config.QuarantineBotConfig
+import io.github.davidmerrick.quarantinebot.config.QuarantineBotConfig
 import io.github.davidmerrick.slakson.messages.SlackEvent
-import com.merricklabs.quarantinebot.util.OutputFormatter
+import io.github.davidmerrick.quarantinebot.util.OutputFormatter
 import io.github.davidmerrick.slakson.client.SlackClient
 import io.github.davidmerrick.slakson.messages.ChannelType.CHANNEL
 import io.github.davidmerrick.slakson.messages.ChannelType.GROUP

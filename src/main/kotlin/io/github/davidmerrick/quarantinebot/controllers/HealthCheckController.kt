@@ -1,4 +1,4 @@
-package com.merricklabs.quarantinebot.controllers
+package io.github.davidmerrick.quarantinebot.controllers
 
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get

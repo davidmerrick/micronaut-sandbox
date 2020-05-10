@@ -1,4 +1,4 @@
-package com.merricklabs.quarantinebot.util
+package io.github.davidmerrick.quarantinebot.util
 
 import io.micronaut.core.annotation.Introspected
 

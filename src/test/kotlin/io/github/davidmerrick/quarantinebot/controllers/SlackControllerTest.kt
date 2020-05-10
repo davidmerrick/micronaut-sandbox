@@ -1,6 +1,6 @@
-package com.merricklabs.quarantinebot.controllers
+package io.github.davidmerrick.quarantinebot.controllers
 
-import com.merricklabs.quarantinebot.TestApplication
+import io.github.davidmerrick.quarantinebot.TestApplication
 import io.github.davidmerrick.slakson.client.SlackClient
 import io.github.davidmerrick.slakson.client.SlackClientImpl
 import io.github.davidmerrick.slakson.messages.CreateMessagePayload

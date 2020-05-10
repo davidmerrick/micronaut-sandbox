@@ -1,4 +1,4 @@
-package com.merricklabs.quarantinebot.slack
+package io.github.davidmerrick.quarantinebot.slack
 
 import io.github.davidmerrick.slakson.messages.EventCallbackMessage
 import io.github.davidmerrick.slakson.messages.SlackChallenge

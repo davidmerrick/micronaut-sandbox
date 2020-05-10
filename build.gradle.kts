@@ -1,7 +1,6 @@
 repositories {
     mavenCentral()
     jcenter()
-    maven("https://dl.bintray.com/davidmerrick/slakson")
 }
 
 plugins {
@@ -23,10 +22,10 @@ allOpen {
     )
 }
 
-group = "com.merricklabs.quarantinebot"
+group = "io.github.davidmerrick.quarantinebot"
 
 application {
-    mainClassName = "com.merricklabs.quarantinebot.Application"
+    mainClassName = "io.github.davidmerrick.quarantinebot.Application"
 }
 
 dependencies {
@@ -53,7 +52,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.7.2")
     implementation("org.slf4j:slf4j-simple:1.8.0-beta4")
     implementation("io.micronaut:micronaut-http-server-netty")
-    implementation("io.github.davidmerrick.slakson:slakson:2.0.0")
+    implementation("io.github.davidmerrick.slakson:slakson:2.0.1")
 
     // Test
 

@@ -19,4 +19,4 @@ slack:
 
 logger:
   levels:
-    com.merricklabs.quarantinebot: DEBUG
+    io.github.davidmerrick.quarantinebot: DEBUG
