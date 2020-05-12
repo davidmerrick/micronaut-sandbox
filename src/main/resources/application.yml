@@ -2,6 +2,12 @@ micronaut:
   application:
     name: quarantinebot
 
+endpoints:
+  all:
+    enabled: false
+  health:
+    enabled: true
+
 jackson:
   mapper:
     ACCEPT_CASE_INSENSITIVE_ENUMS: true

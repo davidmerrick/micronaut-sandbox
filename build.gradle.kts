@@ -29,7 +29,7 @@ application {
 }
 
 dependencies {
-    val micronautVersion by extra("1.3.4")
+    val micronautVersion by extra("1.3.5")
 
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-graal")
@@ -53,6 +53,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.8.0-beta4")
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.github.davidmerrick.slakson:slakson:2.0.1")
+    implementation("io.micronaut:micronaut-management")
 
     // Test
 

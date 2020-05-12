@@ -10,10 +10,15 @@ private val log = KotlinLogging.logger {}
 
 @Singleton
 class SlackMessageHandler(
-        private val eventHandler: SlackEventHandler
+        private val eventHandler: SlackEventHandler,
+        private val filter: MessageFilter
 ) {
     fun handle(message: SlackMessage): String? {
         log.info("Received Slack message of type ${message.type}")
+        if(!filter.apply(message)){
+            log.info("Skipping message")
+            return null
+        }
         when (message) {
             is SlackChallenge -> run {
                 log.info("Handling Slack challenge message")
@@ -21,10 +26,6 @@ class SlackMessageHandler(
             }
             is EventCallbackMessage -> run {
                 log.info("Handling event callback message")
-                if (message.isBotMessage()) {
-                    log.info("Skipping bot message")
-                    return null
-                }
                 eventHandler.handle(message.event)
             }
             else -> run {

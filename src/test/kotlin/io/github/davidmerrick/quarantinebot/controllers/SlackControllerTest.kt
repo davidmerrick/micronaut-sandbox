@@ -1,10 +1,15 @@
 package io.github.davidmerrick.quarantinebot.controllers
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.github.davidmerrick.quarantinebot.TestApplication
+import io.github.davidmerrick.quarantinebot.slack.MessageFilter
 import io.github.davidmerrick.slakson.client.SlackClient
 import io.github.davidmerrick.slakson.client.SlackClientImpl
 import io.github.davidmerrick.slakson.messages.CreateMessagePayload
 import io.github.davidmerrick.slakson.messages.EVENT_CALLBACK_STRING
+import io.github.davidmerrick.slakson.messages.EventCallbackMessage
+import io.github.davidmerrick.slakson.messages.SlackMessage
 import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
 import io.micronaut.http.HttpRequest
@@ -26,8 +31,14 @@ private const val EVENTS_ENDPOINT = "/slack/events"
 @MicronautTest(application = TestApplication::class)
 class SlackControllerTest {
 
-    @get:MockBean(SlackClientImpl::class)
+    @get:MockBean(SlackClient::class)
     val slackClient = mockk<SlackClient>()
+
+    @Inject
+    lateinit var messageFilter: MessageFilter
+
+    @Inject
+    lateinit var mapper: ObjectMapper
 
     @Inject
     @field:Client("/")
@@ -54,9 +65,9 @@ class SlackControllerTest {
     }
 
     @Test
-    fun `On message containing "how long?", should post a response to Slack`(){
+    fun `Filter out bot messages`(){
         val payload = mapOf(
-                "type" to EVENT_CALLBACK_STRING,
+                "type" to "event_callback",
                 "token" to "banana",
                 "team_id" to "foo",
                 "api_app_id" to "foo",
@@ -65,7 +76,29 @@ class SlackControllerTest {
                         "user" to "foo",
                         "text" to "how long",
                         "channel" to "banana",
-                        "channel_type" to "channel"
+                        "channel_type" to "channel",
+                        "subtype" to "bot_message"
+                )
+        )
+
+        val messageString = mapper.writeValueAsString(payload)
+        val message = mapper.readValue<SlackMessage>(messageString)
+        messageFilter.apply(message) shouldBe false
+    }
+
+    @Test
+    fun `On message containing "how long?", should post a response to Slack`(){
+        val payload = mapOf(
+                "type" to "event_callback",
+                "token" to "banana",
+                "team_id" to "foo",
+                "api_app_id" to "foo",
+                "event" to mapOf(
+                        "type" to "message",
+                        "user" to "foo",
+                        "text" to "how many",
+                        "channel" to "banana",
+                        "channel_type" to "im"
                 )
         )
 
@@ -84,6 +117,6 @@ class SlackControllerTest {
                 .retrieve(request, HttpStatus::class.java)
 
         status shouldBe HttpStatus.OK
-        slot.captured.text.toLowerCase() shouldContain "this many days"
+        slot.captured.text.contains("this many days", true) shouldBe true
     }
 }

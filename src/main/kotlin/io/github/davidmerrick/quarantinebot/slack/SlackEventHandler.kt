@@ -66,7 +66,7 @@ class SlackEventHandler(
     }
 
     private fun getReplyText(event: SlackEvent): String {
-        return if (event.text.toLowerCase().contains("how many")) {
+        return if (event.text.contains("how many", true)) {
             val numDays = abs(ChronoUnit.DAYS.between(LocalDate.now(), config.quarantineDate))
             "It's been this many days:\n${OutputFormatter.printFormattedCount(numDays.toInt())}"
         } else {

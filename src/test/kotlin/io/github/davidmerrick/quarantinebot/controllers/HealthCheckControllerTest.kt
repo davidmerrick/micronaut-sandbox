@@ -1,10 +1,10 @@
 package io.github.davidmerrick.quarantinebot.controllers
 
 import io.github.davidmerrick.quarantinebot.TestApplication
+import io.kotlintest.shouldBe
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MicronautTest
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
@@ -15,8 +15,8 @@ class HealthCheckControllerTest {
     lateinit var client: HttpClient
 
     @Test
-    fun `Up endpoint should respond with OK`() {
-        val response = client.toBlocking().retrieve("/status/up")
-        assertEquals("OK", response)
+    fun `Health check endpoint should be enabled`() {
+        val response = client.toBlocking().retrieve("/health")
+        response.contains("status") shouldBe true
     }
 }
