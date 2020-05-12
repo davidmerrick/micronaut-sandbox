@@ -29,7 +29,7 @@ application {
 }
 
 dependencies {
-    val micronautVersion by extra("1.3.5")
+    val micronautVersion by extra("1.3.4")
 
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kapt("io.micronaut:micronaut-graal")
