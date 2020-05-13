@@ -36,6 +36,11 @@ Included in the build is Micronaut's Netty server.
 Invoke `./gradlew run` to start it on port 8080. 
 Make sure to set the `SLACK_TOKEN` environment variable to your Slack app's token.
 
+If using ngrok, run:
+```
+ngrok http -subdomain=quarantinebot 8080
+```
+
 # Compilation and deployment with GraalVM
 
 1. Run `docker build . -t quarantinebot`
