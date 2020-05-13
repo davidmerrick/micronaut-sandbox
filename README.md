@@ -1,6 +1,6 @@
 # quarantinebot
 
-Serverless Slack bot which tells you how long you've been quarantined in units of facemasks.
+Slack bot which tells you how long you've been quarantined in units of facemasks.
 
 * Written in Kotlin
 * Built with superfast [Micronaut](https://micronaut.io/) framework
