@@ -19,6 +19,7 @@ jackson:
 quarantineBot:
   quarantineDate: "2020-03-11"
   botName: quarantinebot
+  dynamoTableName: quarantinebot-config
 
 slack:
   token:

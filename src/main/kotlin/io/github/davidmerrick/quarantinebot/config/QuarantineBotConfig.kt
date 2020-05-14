@@ -13,4 +13,7 @@ class QuarantineBotConfig {
 
     @get:NotBlank
     lateinit var botName: String
+
+    @get:NotBlank
+    lateinit var dynamoTableName: String
 }

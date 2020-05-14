@@ -1,5 +1,6 @@
 package io.github.davidmerrick.quarantinebot.storage
 
+import io.github.davidmerrick.quarantinebot.config.QuarantineBotConfig
 import javax.inject.Singleton
 
 
@@ -9,13 +10,15 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class WorkspaceConfigStorage {
+class WorkspaceConfigStorage(
+        botConfig: QuarantineBotConfig
+) {
 
     /**
      * Store config for this workspace
      */
-    fun storeConfig(config: WorkspaceConfig){
-        // Todo: implement
+    fun storeConfig(payload: WorkspaceConfig){
+
     }
 
 }

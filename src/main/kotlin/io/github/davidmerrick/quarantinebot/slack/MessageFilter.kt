@@ -8,7 +8,8 @@ import javax.inject.Singleton
 class MessageFilter {
 
     /**
-     * Boolean indicating whether the message was filtered
+     * Indicates whether the message should be acted upon
+     * true if so, false if not
      */
     fun apply(message: SlackMessage): Boolean {
         return when(message){

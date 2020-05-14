@@ -36,6 +36,9 @@ dependencies {
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
 
+    implementation(platform("software.amazon.awssdk:bom:2.13.15"))
+    implementation("software.amazon.awssdk:dynamodb")
+
     compileOnly("org.graalvm.nativeimage:svm:20.0.0")
 
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
