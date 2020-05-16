@@ -141,7 +141,7 @@ POLICY
 
 # Dynamo
 
-resource "aws_dynamodb_table" "quarantinebot-config" {
+resource "aws_dynamodb_table" "quarantinebot_config" {
   name         = "${var.appName}-${terraform.workspace}-config"
   billing_mode   = "PROVISIONED"
   read_capacity  = 1
@@ -153,11 +153,37 @@ resource "aws_dynamodb_table" "quarantinebot-config" {
   }
 }
 
+resource "aws_iam_policy" "dynamo_policy" {
+  name        = "${var.appName}-${terraform.workspace}-dynamo_policy"
+  path        = "/"
+  description = "IAM policy for Dynamo"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:*"
+      ],
+      "Resource": "${aws_dynamodb_table.quarantinebot_config.arn}"
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_dynamo" {
+  role       = aws_iam_role.lambda-exec.name
+  policy_arn = aws_iam_policy.dynamo_policy.arn
+}
+
 # CloudWatch logging
 
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
 resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
+  name        = "${var.appName}-${terraform.workspace}-lambda_logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
 
