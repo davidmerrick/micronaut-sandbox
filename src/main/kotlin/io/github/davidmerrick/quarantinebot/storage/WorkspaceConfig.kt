@@ -4,6 +4,6 @@ import io.micronaut.core.annotation.Introspected
 
 @Introspected
 data class WorkspaceConfig(
-        val teamId: String,
+        val userId: String,
         val emoji: String
 )

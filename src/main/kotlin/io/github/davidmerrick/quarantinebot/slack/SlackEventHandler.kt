@@ -1,6 +1,9 @@
 package io.github.davidmerrick.quarantinebot.slack
 
 import io.github.davidmerrick.quarantinebot.config.QuarantineBotConfig
+import io.github.davidmerrick.quarantinebot.storage.WorkspaceConfig
+import io.github.davidmerrick.quarantinebot.storage.WorkspaceConfigStorage
+import io.github.davidmerrick.quarantinebot.util.DEFAULT_EMOJI
 import io.github.davidmerrick.quarantinebot.util.OutputFormatter
 import io.github.davidmerrick.slakson.client.SlackClient
 import io.github.davidmerrick.slakson.messages.ChannelType.CHANNEL
@@ -20,7 +23,8 @@ private val log = KotlinLogging.logger {}
 @Singleton
 class SlackEventHandler(
         private val slackClient: SlackClient,
-        private val config: QuarantineBotConfig
+        private val config: QuarantineBotConfig,
+        private val storage: WorkspaceConfigStorage
 ) {
     private val usageText = """
                 Usage:
@@ -77,11 +81,17 @@ class SlackEventHandler(
         return when {
             event.text.contains("how many", true) -> {
                 val numDays = abs(ChronoUnit.DAYS.between(LocalDate.now(), config.quarantineDate))
-                "It's been this many days:\n${OutputFormatter.printFormattedCount(numDays.toInt())}"
+                val config = storage.lookupConfig(event.user)
+                val emoji = config?.emoji ?: DEFAULT_EMOJI
+                "It's been this many days:\n${OutputFormatter.printFormattedCount(numDays.toInt(), emoji)}"
             }
             setEmojiRegex.matches(event.text) -> {
                 val emoji = setEmojiRegex.find(event.text)?.groups?.get(1)?.value
-                "Setting emoji to $emoji"
+                emoji?.let {
+                    val payload = WorkspaceConfig(event.user, it)
+                    storage.storeConfig(payload)
+                }
+                "Set emoji to $emoji"
             }
             else -> usageText
         }
