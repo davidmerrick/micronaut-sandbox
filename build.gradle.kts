@@ -36,8 +36,9 @@ dependencies {
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
 
-    implementation(platform("software.amazon.awssdk:bom:2.13.15"))
-    implementation("software.amazon.awssdk:dynamodb")
+    implementation("software.amazon.awssdk:dynamodb:2.13.18") {
+        exclude(group = "software.amazon.awssdk", module = "netty-nio-client")
+    }
 
     compileOnly("org.graalvm.nativeimage:svm:20.0.0")
 
