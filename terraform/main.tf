@@ -27,7 +27,9 @@ resource "aws_s3_bucket" "terraform_state" {
 
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "quarantinebot-locks"
-  billing_mode = "PAY_PER_REQUEST"
+  billing_mode   = "PROVISIONED" # Eligible for free tier
+  read_capacity  = 1
+  write_capacity = 1
   hash_key     = "LockID"
   attribute {
     name = "LockID"
@@ -47,26 +49,26 @@ terraform {
 
 # API Gateway
 
-resource "aws_api_gateway_rest_api" "example" {
-  name        = var.appName
+resource "aws_api_gateway_rest_api" "rest_api" {
+  name        = "${var.appName}-${terraform.workspace}"
   description = "API for ${var.appName}"
 }
 
 resource "aws_api_gateway_resource" "proxy" {
-  rest_api_id = aws_api_gateway_rest_api.example.id
-  parent_id   = aws_api_gateway_rest_api.example.root_resource_id
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  parent_id   = aws_api_gateway_rest_api.rest_api.root_resource_id
   path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "proxy" {
-  rest_api_id   = aws_api_gateway_rest_api.example.id
+  rest_api_id   = aws_api_gateway_rest_api.rest_api.id
   resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "ANY"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "lambda" {
-  rest_api_id = aws_api_gateway_rest_api.example.id
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
   resource_id = aws_api_gateway_method.proxy.resource_id
   http_method = aws_api_gateway_method.proxy.http_method
 
@@ -80,8 +82,8 @@ resource "aws_api_gateway_deployment" "example" {
     aws_api_gateway_integration.lambda
   ]
 
-  rest_api_id = aws_api_gateway_rest_api.example.id
-  stage_name  = "prd"
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  stage_name  = terraform.workspace
 }
 
 resource "aws_lambda_permission" "apigw" {
@@ -92,7 +94,7 @@ resource "aws_lambda_permission" "apigw" {
 
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.example.execution_arn}/*/*/*"
+  source_arn = "${aws_api_gateway_rest_api.rest_api.execution_arn}/*/*/*"
 }
 
 output "base_url" {
@@ -103,7 +105,7 @@ output "base_url" {
 
 resource "aws_lambda_function" "lambda" {
   filename = "../build/native-image/function.zip"
-  function_name = var.appName
+  function_name = "${var.appName}-${terraform.workspace}"
   role = aws_iam_role.lambda-exec.arn
   handler = "./bootstrap"
   runtime = "provided"
@@ -118,7 +120,7 @@ resource "aws_lambda_function" "lambda" {
 }
 
 resource "aws_iam_role" "lambda-exec" {
-  name = "${var.appName}-lambda"
+  name = "${var.appName}-${terraform.workspace}-lambda"
 
   assume_role_policy = <<POLICY
 {
@@ -135,6 +137,20 @@ resource "aws_iam_role" "lambda-exec" {
   ]
 }
 POLICY
+}
+
+# Dynamo
+
+resource "aws_dynamodb_table" "quarantinebot-config" {
+  name         = "${var.appName}-${terraform.workspace}-config"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
+  hash_key     = "userId"
+  attribute {
+    name = "userId"
+    type = "S"
+  }
 }
 
 # CloudWatch logging
