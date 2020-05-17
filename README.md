@@ -19,7 +19,11 @@ Subscribe to bot events: `app_mention`, `message.channels`, and `message.im`.
 
 ## Permissions
 
-Add scopes for `app_mentions:read`, `im:history`, and `chat:write`.
+Given the settings for event subscriptions, your token should already have these scopes: 
+* `app_mentions:read`
+* `im:history`
+
+Add a scope for `chat:write` to give your bot permission to post back.
 
 ## Bots
 

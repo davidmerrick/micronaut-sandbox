@@ -78,7 +78,7 @@ resource "aws_api_gateway_integration" "lambda" {
   uri = aws_lambda_function.lambda.invoke_arn
 }
 
-resource "aws_api_gateway_deployment" "example" {
+resource "aws_api_gateway_deployment" "api_gateway_deployment" {
   depends_on = [
     aws_api_gateway_integration.lambda
   ]
@@ -99,7 +99,7 @@ resource "aws_lambda_permission" "apigw" {
 }
 
 output "base_url" {
-  value = aws_api_gateway_deployment.example.invoke_url
+  value = aws_api_gateway_deployment.api_gateway_deployment.invoke_url
 }
 
 # Lambda
