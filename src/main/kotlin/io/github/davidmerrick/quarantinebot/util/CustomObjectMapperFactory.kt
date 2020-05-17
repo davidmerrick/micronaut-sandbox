@@ -11,6 +11,7 @@ import io.micronaut.jackson.ObjectMapperFactory
 import javax.inject.Singleton
 
 @Factory
+@Introspected // Note: Required for Graal
 @Replaces(ObjectMapperFactory::class)
 class CustomObjectMapperFactory : ObjectMapperFactory() {
 

@@ -1,6 +1,7 @@
 package io.github.davidmerrick.quarantinebot.storage
 
 import io.github.davidmerrick.quarantinebot.config.QuarantineBotConfig
+import io.micronaut.core.annotation.Introspected
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import javax.inject.Singleton
@@ -11,9 +12,10 @@ import javax.inject.Singleton
 
 @Singleton
 class WorkspaceConfigStorage(
-        private val dynamoDbClient: DynamoDbClient,
+        dynamoDbClientFactory: DynamoClientFactory,
         private val quarantineBotConfig: QuarantineBotConfig
 ) {
+    private val dynamoDbClient = dynamoDbClientFactory.dynamoClient()
 
     /**
      * Store config for this user
