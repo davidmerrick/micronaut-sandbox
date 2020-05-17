@@ -12,10 +12,9 @@ import javax.inject.Singleton
 
 @Singleton
 class WorkspaceConfigStorage(
-        dynamoDbClientFactory: DynamoClientFactory,
+        private val dynamoDbClient: DynamoDbClient,
         private val quarantineBotConfig: QuarantineBotConfig
 ) {
-    private val dynamoDbClient = dynamoDbClientFactory.dynamoClient()
 
     /**
      * Store config for this user
