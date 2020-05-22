@@ -40,12 +40,6 @@ dependencies {
 
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.aws:micronaut-function-aws-api-proxy") {
-        exclude(group = "com.fasterxml.jackson.module", module = "jackson-module-afterburner")
-    }
-    implementation("io.micronaut.aws:micronaut-function-aws-custom-runtime") {
-        exclude(group = "com.fasterxml.jackson.module", module = "jackson-module-afterburner")
-    }
     implementation("io.micronaut:micronaut-inject")
     implementation("io.micronaut:micronaut-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
