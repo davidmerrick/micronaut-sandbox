@@ -52,3 +52,10 @@ which returns a JSON payload:
   "status": "UP"
 }
 ```
+
+# Production
+
+In production, I run this on AWS Fargate.
+
+I found this to be an excellent intro to orchestrating containers there:
+https://itnext.io/run-your-containers-on-aws-fargate-c2d4f6a47fda
