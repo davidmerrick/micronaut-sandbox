@@ -103,3 +103,38 @@ resource "aws_iam_role_policy_attachment" "secrets_access" {
   role       = aws_iam_role.task_role.name
   policy_arn = aws_iam_policy.secrets_access.arn
 }
+
+# ECS service
+
+resource "aws_ecs_service" "quarantinebot" {
+  name            = "quarantinebot"
+  cluster         = "arn:aws:ecs:us-west-2:211430622617:cluster/default"
+  task_definition = aws_ecs_task_definition.quarantinebot.arn
+  desired_count   = 1
+
+  network_configuration {
+    subnets = [
+      "subnet-0080f890e5ca64fb6",
+      "subnet-07eb29c64df1931e0"
+    ]
+    assign_public_ip = false
+  }
+
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.quarantinebot.arn
+    container_name   = "application"
+    container_port   = 8080
+  }
+}
+
+resource "aws_lb_target_group" "quarantinebot" {
+  name     = "quarantinebot"
+  port     = 443
+  protocol = "HTTP"
+  target_type = "ip"
+  vpc_id   = "vpc-0b0bbd5e3fc4b295d"
+}
