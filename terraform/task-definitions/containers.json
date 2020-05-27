@@ -19,6 +19,12 @@
         "awslogs-group": "/ecs/quarantinebot"
       }
     },
+    "secrets": [
+      {
+        "name": "SLACK_TOKEN",
+        "valueFrom": "arn:aws:secretsmanager:us-west-2:211430622617:secret:prd.quarantinebot-XUkUV4:slack_token"
+      }
+    ],
     "essential": true,
     "volumesFrom": []
   }
