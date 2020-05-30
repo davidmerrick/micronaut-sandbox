@@ -19,10 +19,10 @@
         "awslogs-group": "/ecs/quarantinebot"
       }
     },
-    "secrets": [
+    "environment": [
       {
         "name": "SLACK_TOKEN",
-        "valueFrom": "arn:aws:secretsmanager:us-west-2:211430622617:secret:prd.quarantinebot-XUkUV4:slack_token"
+        "value": "banana"
       }
     ],
     "essential": true,

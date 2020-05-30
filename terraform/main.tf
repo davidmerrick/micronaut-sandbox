@@ -76,34 +76,6 @@ resource "aws_iam_role" "task_role" {
 POLICY
 }
 
-resource "aws_iam_policy" "secrets_access" {
-  name        = "quarantinebot-${terraform.workspace}-secrets"
-  path        = "/"
-  description = "IAM policy for Quarantinebot to access secrets"
-
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-      {
-      "Effect": "Allow",
-      "Action": [
-        "secretsmanager:GetSecretValue"
-      ],
-      "Resource": [
-        "arn:aws:secretsmanager:us-west-2:211430622617:secret:prd.quarantinebot-XUkUV4:*"
-      ]
-    }
-  ]
-}
-POLICY
-}
-
-resource "aws_iam_role_policy_attachment" "secrets_access" {
-  role       = aws_iam_role.task_role.name
-  policy_arn = aws_iam_policy.secrets_access.arn
-}
-
 # ECS service
 
 resource "aws_ecs_service" "quarantinebot" {
