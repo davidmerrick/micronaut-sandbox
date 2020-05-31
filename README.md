@@ -4,7 +4,6 @@ Slack bot which tells you how long you've been quarantined in units of facemasks
 
 * Written in Kotlin
 * Built with the blazing-fast [Micronaut](https://micronaut.io/) framework
-* Includes Terraform configs for deploying infrastructure
 
 ![screenshot](img/screenshot.png)
 
@@ -55,7 +54,4 @@ which returns a JSON payload:
 
 # Production
 
-In production, I run this on AWS Fargate.
-
-I found this to be an excellent intro to orchestrating containers there:
-https://itnext.io/run-your-containers-on-aws-fargate-c2d4f6a47fda
+In production, I run this on [Google Cloud Run](https://cloud.google.com/run).
