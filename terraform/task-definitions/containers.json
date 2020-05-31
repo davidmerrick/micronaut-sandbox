@@ -1,0 +1,34 @@
+[
+  {
+    "memoryReservation": 512,
+    "name": "application",
+    "mountPoints": [],
+    "image": "211430622617.dkr.ecr.us-west-2.amazonaws.com/quarantinebot",
+    "portMappings": [
+      {
+        "protocol": "tcp",
+        "containerPort": 8080,
+        "hostPort": 8080
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "us-west-2",
+        "awslogs-stream-prefix": "ecs",
+        "awslogs-group": "/ecs/quarantinebot"
+      }
+    },
+    "environment": [
+      {
+        "name": "SLACK_TOKEN",
+        "value": "banana"
+      }
+    ],
+    "essential": true,
+    "volumesFrom": []
+  }
+]
+
+
+

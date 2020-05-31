@@ -4,8 +4,8 @@
 variable appName {}
 
 provider "aws" {
-  profile    = "terraform-sandbox"
-  region     = "us-west-2"
+  profile = "fargate"
+  region = "us-west-2"
 }
 
 # Remote state
@@ -26,9 +26,9 @@ resource "aws_s3_bucket" "terraform_state" {
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
-  name         = "quarantinebot-locks"
+  name = "quarantinebot-locks"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
+  hash_key = "LockID"
   attribute {
     name = "LockID"
     type = "S"
@@ -37,133 +37,76 @@ resource "aws_dynamodb_table" "terraform_locks" {
 
 terraform {
   backend "s3" {
-    bucket         = "io.github.davidmerrick.quarantinebot.tfstate"
-    key            = "global/s3/terraform.tfstate"
+    bucket = "io.github.davidmerrick.quarantinebot.tfstate"
+    key = "global/s3/terraform.tfstate"
     region = "us-west-2"
     dynamodb_table = "quarantinebot-locks"
-    encrypt        = true
+    encrypt = true
   }
 }
 
-# API Gateway
+# ECS task definition
 
-resource "aws_api_gateway_rest_api" "example" {
-  name        = var.appName
-  description = "API for ${var.appName}"
+resource "aws_ecs_task_definition" "quarantinebot" {
+  family = "quarantinebot"
+  execution_role_arn = aws_iam_role.task_role.arn
+  network_mode = "awsvpc"
+  cpu = 256
+  memory = 512
+  container_definitions = file("task-definitions/containers.json")
 }
 
-resource "aws_api_gateway_resource" "proxy" {
-  rest_api_id = aws_api_gateway_rest_api.example.id
-  parent_id   = aws_api_gateway_rest_api.example.root_resource_id
-  path_part   = "{proxy+}"
-}
-
-resource "aws_api_gateway_method" "proxy" {
-  rest_api_id   = aws_api_gateway_rest_api.example.id
-  resource_id   = aws_api_gateway_resource.proxy.id
-  http_method   = "ANY"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_integration" "lambda" {
-  rest_api_id = aws_api_gateway_rest_api.example.id
-  resource_id = aws_api_gateway_method.proxy.resource_id
-  http_method = aws_api_gateway_method.proxy.http_method
-
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda.invoke_arn
-}
-
-resource "aws_api_gateway_deployment" "example" {
-  depends_on = [
-    aws_api_gateway_integration.lambda
-  ]
-
-  rest_api_id = aws_api_gateway_rest_api.example.id
-  stage_name  = "prd"
-}
-
-resource "aws_lambda_permission" "apigw" {
-  statement_id  = "AllowAPIGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda.function_name
-  principal     = "apigateway.amazonaws.com"
-
-  # The "/*/*" portion grants access from any method on any resource
-  # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.example.execution_arn}/*/*/*"
-}
-
-output "base_url" {
-  value = aws_api_gateway_deployment.example.invoke_url
-}
-
-# Lambda
-
-resource "aws_lambda_function" "lambda" {
-  filename = "../build/native-image/function.zip"
-  function_name = var.appName
-  role = aws_iam_role.lambda-exec.arn
-  handler = "./bootstrap"
-  runtime = "provided"
-  memory_size = 256
-  timeout = 10
-
-  environment {
-    variables = {
-      SLACK_TOKEN = "banana"
-    }
-  }
-}
-
-resource "aws_iam_role" "lambda-exec" {
-  name = "${var.appName}-lambda"
+resource "aws_iam_role" "task_role" {
+  name = "quarantinebot-${terraform.workspace}"
 
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
+      "Sid": "",
       "Effect": "Allow",
-      "Sid": ""
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }
 POLICY
 }
 
-# CloudWatch logging
+# ECS service
 
-# See also the following AWS managed policy: AWSLambdaBasicExecutionRole
-resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
-  path        = "/"
-  description = "IAM policy for logging from a lambda"
+resource "aws_ecs_service" "quarantinebot" {
+  name            = "quarantinebot"
+  cluster         = "arn:aws:ecs:us-west-2:211430622617:cluster/default"
+  task_definition = aws_ecs_task_definition.quarantinebot.arn
+  desired_count   = 1
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:*:*:*",
-      "Effect": "Allow"
-    }
-  ]
+  network_configuration {
+    subnets = [
+      "subnet-0080f890e5ca64fb6",
+      "subnet-07eb29c64df1931e0"
+    ]
+    assign_public_ip = false
+  }
+
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.quarantinebot.arn
+    container_name   = "application"
+    container_port   = 8080
+  }
 }
-EOF
-}
 
-resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role       = aws_iam_role.lambda-exec.name
-  policy_arn = aws_iam_policy.lambda_logging.arn
+resource "aws_lb_target_group" "quarantinebot" {
+  name     = "quarantinebot"
+  port     = 443
+  protocol = "HTTP"
+  target_type = "ip"
+  vpc_id   = "vpc-0b0bbd5e3fc4b295d"
 }
