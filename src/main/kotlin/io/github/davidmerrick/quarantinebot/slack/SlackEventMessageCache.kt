@@ -28,7 +28,9 @@ class SlackEventMessageCache {
             .build<String, Boolean>()
 
     fun isMessageCached(message: EventCallbackMessage): Boolean {
+        val cacheHit = cache.asMap().putIfAbsent(message.eventId, true) != null
         log.info("Cache size: ${cache.asMap().size}")
-        return cache.asMap().putIfAbsent(message.eventId, true) != null
+        log.info("Cache hit: $cacheHit")
+        return cacheHit
     }
 }
