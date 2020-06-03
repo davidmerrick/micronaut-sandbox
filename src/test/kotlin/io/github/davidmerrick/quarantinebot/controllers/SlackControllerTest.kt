@@ -71,6 +71,8 @@ class SlackControllerTest {
                 "token" to "banana",
                 "team_id" to "foo",
                 "api_app_id" to "foo",
+                "event_id" to "foo",
+                "event_time" to 12345,
                 "event" to mapOf(
                         "type" to "message",
                         "user" to "foo",
@@ -93,6 +95,8 @@ class SlackControllerTest {
                 "token" to "banana",
                 "team_id" to "foo",
                 "api_app_id" to "foo",
+                "event_id" to "foo",
+                "event_time" to 12345,
                 "event" to mapOf(
                         "type" to "message",
                         "user" to "foo",

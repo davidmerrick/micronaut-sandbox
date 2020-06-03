@@ -11,7 +11,8 @@ private val log = KotlinLogging.logger {}
 @Singleton
 class SlackMessageHandler(
         private val eventHandler: SlackEventHandler,
-        private val filter: MessageFilter
+        private val filter: MessageFilter,
+        private val cache: SlackEventMessageCache
 ) {
     fun handle(message: SlackMessage): String? {
         log.info("Received Slack message of type ${message.type}")
@@ -26,6 +27,10 @@ class SlackMessageHandler(
             }
             is EventCallbackMessage -> run {
                 log.info("Handling event callback message")
+                if(cache.isMessageCached(message)){
+                    log.info("Message is cached. Skipping.")
+                    return null
+                }
                 eventHandler.handle(message.event)
             }
             else -> run {
