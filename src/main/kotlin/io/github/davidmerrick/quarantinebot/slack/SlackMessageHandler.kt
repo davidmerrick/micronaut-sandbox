@@ -26,7 +26,7 @@ class SlackMessageHandler(
                 return message.challenge
             }
             is EventCallbackMessage -> run {
-                log.info("Handling event callback message")
+                log.info("Handling event callback message with id ${message.eventId}")
                 if(cache.isMessageCached(message)){
                     log.info("Message is cached. Skipping.")
                     return null

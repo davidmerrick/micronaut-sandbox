@@ -45,7 +45,6 @@ dependencies {
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.github.davidmerrick.slakson:slakson:2.0.2")
     implementation("io.micronaut:micronaut-management")
-    implementation("com.github.ben-manes.caffeine:caffeine:2.8.4")
 
     // Test
 
