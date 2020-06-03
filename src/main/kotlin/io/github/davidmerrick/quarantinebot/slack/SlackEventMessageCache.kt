@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 
 private const val MAX_CACHE_SIZE = 100L
-private const val CACHE_TTL_SECONDS = 5L
+private const val CACHE_TTL_SECONDS = 60L
 
 /**
  * This is necessary when run in a serverless environment;
