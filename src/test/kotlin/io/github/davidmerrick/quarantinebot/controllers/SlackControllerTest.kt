@@ -5,12 +5,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import io.github.davidmerrick.quarantinebot.TestApplication
 import io.github.davidmerrick.quarantinebot.slack.MessageFilter
 import io.github.davidmerrick.slakson.client.SlackClient
-import io.github.davidmerrick.slakson.client.SlackClientImpl
 import io.github.davidmerrick.slakson.messages.CreateMessagePayload
-import io.github.davidmerrick.slakson.messages.EVENT_CALLBACK_STRING
-import io.github.davidmerrick.slakson.messages.EventCallbackMessage
 import io.github.davidmerrick.slakson.messages.SlackMessage
-import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus

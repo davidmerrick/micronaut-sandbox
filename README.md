@@ -52,6 +52,8 @@ which returns a JSON payload:
 }
 ```
 
-# Production
+# Deployment
 
 In production, I run this on [Google Cloud Run](https://cloud.google.com/run).
+
+I have a Cloud Build trigger set up on pushes to the master branch of this repo that automatically deploys it.
