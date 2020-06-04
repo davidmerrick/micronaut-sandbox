@@ -8,7 +8,6 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("kapt") version "1.3.72"
     kotlin("plugin.allopen") version "1.3.72"
-    id("com.hpe.kraal") version "0.0.15"
     application
 }
 
@@ -45,12 +44,14 @@ dependencies {
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.github.davidmerrick.slakson:slakson:2.0.2")
     implementation("io.micronaut:micronaut-management")
+    implementation("io.micronaut:micronaut-http-client")
 
     // Test
 
     kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kaptTest("io.micronaut:micronaut-inject-java")
 
+    testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.8")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.2")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")

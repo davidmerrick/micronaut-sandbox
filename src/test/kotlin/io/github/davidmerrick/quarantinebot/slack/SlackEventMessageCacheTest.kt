@@ -18,7 +18,7 @@ internal class SlackEventMessageCacheTest {
 
     @Test
     fun `Duplicate event id should be cached`(){
-        val eventId = "banana"
+        val eventId = "Ev014R398W02"
         val message = EventCallbackMessage(
                 token = "foo",
                 teamId = "foo",
@@ -38,6 +38,30 @@ internal class SlackEventMessageCacheTest {
 
         cache.isMessageCached(message) shouldBe false
         cache.isMessageCached(message) shouldBe true
+    }
 
+    @Test
+    fun `New event id should not be cached`(){
+        val message = EventCallbackMessage(
+                token = "foo",
+                teamId = "foo",
+                apiAppId = "foo",
+                event = SlackEvent(
+                        type = SlackEventType.MESSAGE_CHANNELS,
+                        subtype = "foo",
+                        user = "foo",
+                        text = "foo",
+                        channel = "bar",
+                        channelType = ChannelType.CHANNEL,
+                        botId = null
+                ),
+                eventId = "foo",
+                eventTime = 12345
+        )
+
+        cache.isMessageCached(message) shouldBe false
+
+        val newMessage = message.copy(eventId = "bar")
+        cache.isMessageCached(newMessage) shouldBe false
     }
 }

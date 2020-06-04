@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 
 private const val MAX_CACHE_SIZE = 100L
-private const val CACHE_TTL_SECONDS = 30L
+private const val CACHE_TTL_SECONDS = 60L
 
 /**
  * This is necessary when run in a serverless environment;
@@ -29,7 +29,6 @@ class SlackEventMessageCache {
 
     fun isMessageCached(message: EventCallbackMessage): Boolean {
         val cacheHit = cache.asMap().putIfAbsent(message.eventId, true) != null
-        log.info("Cache size: ${cache.asMap().size}")
         log.info("Cache hit: $cacheHit")
         return cacheHit
     }
