@@ -2,7 +2,7 @@ package io.github.davidmerrick.quarantinebot.util
 
 import io.micronaut.core.annotation.Introspected
 
-private const val COUNTER_EMOJI = ":mask:"
+private const val COUNTER_EMOJI = ":tiger:"
 private const val CHUNK_BY = 5
 
 @Introspected

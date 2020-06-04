@@ -1,6 +1,6 @@
 # quarantinebot
 
-Slack bot which tells you how long you've been quarantined in units of facemasks.
+Slack bot which tells you how long you've been quarantined in units of tiger emojis.
 
 * Written in Kotlin
 * Built with the blazing-fast [Micronaut](https://micronaut.io/) framework
