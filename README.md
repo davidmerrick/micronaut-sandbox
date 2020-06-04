@@ -25,8 +25,8 @@ Enable `Always Show My Bot as Online`.
 
 # Running tests locally
 
-1. Do a `./gradlew build` to generate kapt annotations
-2. Run tests as usual in IntelliJ
+1. Do a `./gradlew build` to generate kapt annotations.
+2. Run tests as usual in IntelliJ.
 
 # Running application locally
 
