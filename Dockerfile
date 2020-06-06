@@ -6,9 +6,9 @@ RUN gradle test --no-daemon
 RUN gradle shadowJar --no-daemon
 
 FROM openjdk:11.0.7-slim
-COPY --from=builder /home/application/build/libs/quarantinebot.jar \
+COPY --from=builder /home/application/build/libs/application.jar \
     /home/application/
 
 WORKDIR /home/application
 
-CMD ["java", "-jar", "quarantinebot.jar"]
+CMD ["java", "-jar", "application.jar"]
