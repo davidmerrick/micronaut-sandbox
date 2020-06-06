@@ -87,7 +87,7 @@ tasks {
     }
 
     shadowJar {
-        archiveBaseName.set("quarantinebot")
+        archiveBaseName.set("application")
         archiveClassifier.set("")
         archiveVersion.set("")
         mergeServiceFiles()
